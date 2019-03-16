@@ -1,5 +1,4 @@
 footer: @kylebshr
-slidenumbers: true
 theme: Lyft
 
 [.slidenumbers: false]
