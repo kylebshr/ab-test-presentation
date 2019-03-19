@@ -77,6 +77,8 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
+# Project X
+
 ![inline](img/v4-vs-x.png)
 
 ^ Now this was a complete redesign, so we had a few goals
@@ -117,10 +119,6 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ and one that implemented every single delegate method, and forwarded the calls to the correct delegate based on our feature flag
 
----
-
-NEED CONTENT
-
 ^ now, this was actually a pretty neat idea
 
 ^ Could iterate on new stuff without worry about inter-op or breaking the old app
@@ -129,52 +127,139 @@ NEED CONTENT
 
 ---
 
-NEED CONTENT
+GRAPHS OF METRICS UP AND DOWN
 
 ^ But then it came to time for the actual experiment
+
+^ some metrics were up, but some were down quite a bit
 
 ^ and realized downsides...
 
 ---
 
-# What broke and why?
+# What’s broken?
+# **And why?**
 
 ^ With so many changes in a single a/b test, it’s often difficult to tell _why_ a metric moved a certain way
 
 ^ is it less intuitive? Is a specific button placement hurting conversion? Maybe the fact that we changed the order you do things?
+
+^ one result of the decline in certain metrics meant we were testing this for a long time - over a year
+
+^ this led to the second downside
 
 ---
 
 # It’s hard to maintain 
 # two apps
 
-^ one result of the decline in certain metrics meant we were testing this for a long time - nearly a year
-
 ^ have to either build for future or current users, or sometimes twice
 
 ^ Applies to any extremely large change, doesn’t have to be as extreme as the whole app
 
+^ So, clearly an A/B test can be too big. 
+
 ---
 
+# Demand Graph Redesign
 
-# Demand Graph Design
-## Probably an improvement
+![inline](img/demand-graph.png)
 
-Doesn’t __mean__ it will *move* metrics![^1]
+^ Now, let’s switch gears and take a look at an experiment we recently ran in the driver app.
 
-[^1]: For more details on the citation guidelines of the American Psychological Association check out their [website](https://www.library.cornell.edu/research/citation/apa).
+^ this one’s a little more similar to our log in button example.
+
+^ Recently released new feature to show passenger demand.
+
+^ Wanted to improve readability & design of graphs
+
+---
+
+# Implementation
+
+```swift
+protocol GraphDisplaying {...}
+
+class BarGraphView: UIView, GraphDisplaying {...}           
+``` 
+
+^ protocols for graphs make a/b test nice
+
+---
+
+# Implementation
+
+```swift
+protocol GraphDisplaying {...}
+
+class BarGraphView: UIView, GraphDisplaying {...}
+
+class InteractiveBarGraphView: UIView, GraphDisplaying {...}
+
+typealias GraphView = UIView & GraphDisplaying
+``` 
+
+---
+
+# Implementation
+
+```swift
+class DemandGraphView: UIView {
+    private let chartView: GraphView
+
+    init(frame: CGRect) {
+        if FeatureFlag.demandGraphV2.getValue() {
+            self.chartView = BarGraphView()
+        } else {
+            self.chartView = InteractiveBarGraphView()
+        }
+        ...
+    }
+}
+``` 
+
+---
+
+FLAT METRICS
+
+^ Nice and self contained
+
+^ Didn’t get any useful results
+
+^ Flat metrics don’t mean the experiment was bad
+
+^ but looking back, it’s clear that an a/b test can be too small or subtle
+
+^ If there’s a clear improvement that’s not changing much, sometimes not worth the time to test
+
+---
+
+# What does a good 
+# A/B test look like?
 
 ---
 
 # Driver Home Redesign
 
-- Does this thing
-- Does that thing
-- Here’s a longer thing it does
+![inline](img/demand-graph.png)
+
+^ Self contained, but also meaningful change
 
 ---
 
-> You decided to do what with your a/b tests?
--- The Other Guy
+# Implementation
 
-—
+```swift
+lazy var guidanceViewController = ...
+lazy var newsFeedViewController = ...
+
+FeatureFlag.homeTabGuidance.on {
+    self.setUpGuidancePanel()
+} .off { 
+    self.setUpNewsFeedPanel()
+}
+```
+
+^ lazy vars make this nice
+
+-
