@@ -55,7 +55,7 @@ FeatureFlag.yellowSignUpButton.on {
 
 # Monitor Results
 
-![inline 100%](upwards-metrics.png)
+![inline](img/sample-metrics.png)
 
 ^ Then you monitor the metrics...
 
@@ -125,11 +125,15 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ Still in the same project, even shared modules
 
+^ And after a ton of incredible work, it was time to run the experiment
+
 ---
 
-GRAPHS OF METRICS UP AND DOWN
+# Results
 
-^ But then it came to time for the actual experiment
+![inline](img/x-metrics.png)
+
+^ And the results looked something like this
 
 ^ some metrics were up, but some were down quite a bit
 
@@ -157,7 +161,7 @@ GRAPHS OF METRICS UP AND DOWN
 
 ^ Applies to any extremely large change, doesn’t have to be as extreme as the whole app
 
-^ So, clearly an A/B test can be too big. 
+^ So, clearly an A/B test can be too big.
 
 ---
 
@@ -220,7 +224,9 @@ class DemandGraphView: UIView {
 
 ---
 
-FLAT METRICS
+# Results
+
+![inline](img/graph-metrics.png)
 
 ^ Nice and self contained
 
@@ -241,7 +247,7 @@ FLAT METRICS
 
 # Driver Home Redesign
 
-![inline](img/demand-graph.png)
+![inline](img/home-tab.png)
 
 ^ Self contained, but also meaningful change
 
@@ -261,5 +267,11 @@ FeatureFlag.homeTabGuidance.on {
 ```
 
 ^ lazy vars make this nice
+
+---
+
+# Results
+
+![inline](img/home-metrics.png)
 
 -
