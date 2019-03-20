@@ -4,9 +4,9 @@ theme: Lyft
 [.slidenumbers: false]
 [.hide-footer]
 
-# How *(not)* to A/B Test
-## Lessons learned @ Lyft
---
+# **How *(not)* to A/B Test**
+## Lessons learned in 
+## experimentation at Lyft
 --
 --
 --
@@ -17,13 +17,15 @@ theme: Lyft
 
 ---
 
-# What is an A/B Test?
+# What is an A/B test?
 
 ^ You have an idea for an improvement, but you want to validate that it’s better in some measurable way
 
 ^ Useful for testing a hypothesis 
 
 ---
+
+# Hypothesis
 
 ![inline](img/sign-up.png)
 
@@ -36,11 +38,9 @@ theme: Lyft
 ---
 
 ## _In viewDidLoad..._
-
 --
 --
 --
-
 ```ruby
 FeatureFlag.yellowSignUpButton.on {
     button.setStyle(background: .yellow, text: .black)
@@ -60,6 +60,8 @@ FeatureFlag.yellowSignUpButton.on {
 ^ Then you monitor the metrics...
 
 ---
+
+# Ship It!
 
 ![inline](img/sign-up-decision.png)
 
@@ -91,11 +93,15 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
+# Implementation
+
 ![inline](img/one-delegate.png)
 
 ^ well, yes we did. We had not one, 
 
 ---
+
+# Implementation
 
 ![inline](img/two-delegates.png)
 
@@ -103,17 +109,23 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
+# Implementation
+
 ![inline](img/three-delegates.png)
 
 ^ but three app delegates. 
 
 ---
 
+# Implementation
+
 ![inline](img/messy-swift.png)
 
 ^ two of which led to entirely different apps
 
 ---
+
+# Implementation
 
 ![inline](img/switching-flag.png)
 
@@ -180,7 +192,8 @@ FeatureFlag.yellowSignUpButton.on {
 ---
 
 # Implementation
-
+--
+--
 ```swift
 protocol GraphDisplaying {...}
 
@@ -192,7 +205,8 @@ class BarGraphView: UIView, GraphDisplaying {...}
 ---
 
 # Implementation
-
+--
+--
 ```swift
 protocol GraphDisplaying {...}
 
@@ -208,7 +222,7 @@ typealias GraphView = UIView & GraphDisplaying
 # Implementation
 
 ```swift
-class DemandGraphView: UIView {
+final class DemandGraphView: UIView {
     private let chartView: GraphView
 
     init(frame: CGRect) {
@@ -253,16 +267,25 @@ class DemandGraphView: UIView {
 
 ---
 
+# Driver Home Redesign
+
+![inline](img/home-tab-expand.png)
+
+---
+
 # Implementation
 
 ```swift
 lazy var guidanceViewController = ...
 lazy var newsFeedViewController = ...
 
-FeatureFlag.homeTabGuidance.on {
-    self.setUpGuidancePanel()
-} .off { 
-    self.setUpNewsFeedPanel()
+override func viewDidLoad() {
+    FeatureFlag.homeTabGuidance.on {
+        self.setUpGuidancePanel()
+    } .off {
+        self.setUpNewsFeedPanel()
+    }
+    ...
 }
 ```
 
@@ -273,5 +296,16 @@ FeatureFlag.homeTabGuidance.on {
 # Results
 
 ![inline](img/home-metrics.png)
+
+---
+
+# Final thoughts
+
+---
+
+# Thanks for listening!
+## _Questions?_
+
+---
 
 -
