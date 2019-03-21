@@ -245,15 +245,18 @@ typealias GraphView = UIView & GraphDisplaying
 
 ```swift
 final class DemandGraphView: UIView {
-    private let chartView: GraphView
+    private let graphView: GraphView
 
     init(frame: CGRect) {
         if FeatureFlag.demandGraphV2.getValue() {
-            self.chartView = BarGraphView()
+            self.graphView = BarGraphView()
         } else {
-            self.chartView = InteractiveBarGraphView()
+            self.graphView = InteractiveBarGraphView()
         }
+
         ...
+
+        self.graphView.display(data)
     }
 }
 ``` 
@@ -278,6 +281,14 @@ final class DemandGraphView: UIView {
 
 # What does a good 
 # A/B test look like?
+
+^ Well designed A/B test is
+
+^ Small enough to be fairly self-contained
+
+^ Large enough change to merit testing
+
+^ Has a hypothesis worth test
 
 ---
 
