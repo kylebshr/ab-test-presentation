@@ -193,7 +193,9 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
-![inline](img/delete-v4.png)
+![inline 40%](img/delete-v4.png)
+
+^ good news, our strategy of easily deleting a variation worked
 
 ---
 
