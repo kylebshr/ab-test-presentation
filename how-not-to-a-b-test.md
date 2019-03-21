@@ -13,15 +13,21 @@ theme: Lyft
 --
 --
 --
-### @kylebshr • 27 March 2019
+### Kyle Bashour • @kylebshr • 27 March 2019
+
+^ Welcome everyone, and thanks for coming to the Swift Language User group
+
+^ My name is Kyle, and I’m an iOS developer here at Lyft on Driver Labs. I’ve been here over a year now, and I’m excited to talk about some of the success and failures we’ve had in experimentation. 
 
 ---
 
 # What is an A/B test?
 
+^ A/B testing has become pretty commonplace over the last few years, but to make sure we’re on the same page let’s go over a quick example. 
+
 ^ You have an idea for an improvement, but you want to validate that it’s better in some measurable way
 
-^ Useful for testing a hypothesis 
+^ A/B testing lets you verify a hypothesis by randomly showing two experiences to a user, and using statistical analysis to determine which performs better
 
 ---
 
@@ -33,7 +39,7 @@ theme: Lyft
 
 ^ You’re testing experience (B) against a control, experience (A), hence the name
 
-^ Now, I think a lot of people think you need to be able to dynamically insert code. But Swift is a compiled, static language.
+^ Now, I think a lot of people think you need to be able to dynamically insert code. But Swift is a compiled, static language - how do you modify that at runtime?
 
 ---
 
@@ -49,13 +55,23 @@ FeatureFlag.yellowSignUpButton.on {
 }
 ```
 
-^ A/B test implementation usually looks something like this. 
+^ May not have all the bells and whistles of dynamic language where we could do this on the fly
+
+^ A/B test implementation is usually pretty simple looks something like this
+
+^ Now that we’ve created our variation, we ship our update and wait for results
+
+^ After enough time, we’ll get statistically significant movements in our metrics
 
 ---
 
 # Monitor Results
 
 ![inline](img/sample-metrics.png)
+
+^ Thanks to an incredible experimentation team at Lyft, we have a dashboard for every experiment that looks something like this
+
+^ Stat, change with conf. interval, chart to visualize the impact
 
 ^ Then you monitor the metrics...
 
@@ -174,6 +190,10 @@ FeatureFlag.yellowSignUpButton.on {
 ^ Applies to any extremely large change, doesn’t have to be as extreme as the whole app
 
 ^ So, clearly an A/B test can be too big.
+
+---
+
+![inline](img/delete-v4.png)
 
 ---
 
