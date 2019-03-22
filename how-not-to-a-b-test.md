@@ -1,5 +1,6 @@
 footer: @kylebshr
 theme: Lyft
+build-lists: true
 
 [.slidenumbers: false]
 [.hide-footer]
@@ -17,7 +18,7 @@ theme: Lyft
 
 ^ Welcome everyone, and thanks for coming to the Swift Language User group
 
-^ My name is Kyle, and I’m an iOS developer here at Lyft on Driver Labs. I’ve been here over a year now, and I’m excited to talk about some of the success and failures we’ve had in experimentation. 
+^ My name is Kyle, and I’m an iOS developer here at Lyft on Driver Labs. I’ve been here over a year now, and I’m excited to talk about some of things I’ve learned about experimentation in that time. 
 
 ---
 
@@ -39,6 +40,14 @@ theme: Lyft
 
 ^ You’re testing experience (B) against a control, experience (A), hence the name
 
+---
+
+# Hypothesis
+
+![inline](img/sign-up-alt.png)
+
+^ Other terms I might use: control, treatment
+
 ^ Now, I think a lot of people think you need to be able to dynamically insert code. But Swift is a compiled, static language - how do you modify that at runtime?
 
 ---
@@ -59,6 +68,8 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ A/B test implementation is usually pretty simple looks something like this
 
+^ closure. Clean up just delete one of them.
+
 ^ Now that we’ve created our variation, we ship our update and wait for results
 
 ^ After enough time, we’ll get statistically significant movements in our metrics
@@ -72,6 +83,8 @@ FeatureFlag.yellowSignUpButton.on {
 ^ Thanks to an incredible experimentation team at Lyft, we have a dashboard for every experiment that looks something like this
 
 ^ Stat, change with conf. interval, chart to visualize the impact
+
+^ who knew you could increase sign ups by 1.5% just by changing the button color!
 
 ^ Then you monitor the metrics...
 
@@ -203,9 +216,9 @@ FeatureFlag.yellowSignUpButton.on {
 
 ![inline](img/demand-graph.png)
 
-^ Now, let’s switch gears and take a look at an experiment we recently ran in the driver app.
+^ Switch gears to driver app
 
-^ this one’s a little more similar to our log in button example.
+^ More similar to our log in button example.
 
 ^ Recently released new feature to show passenger demand.
 
@@ -219,25 +232,16 @@ FeatureFlag.yellowSignUpButton.on {
 ```swift
 protocol GraphDisplaying {...}
 
-class BarGraphView: UIView, GraphDisplaying {...}           
-``` 
-
-^ protocols for graphs make a/b test nice
-
----
-
-# Implementation
---
---
-```swift
-protocol GraphDisplaying {...}
+typealias GraphView = UIView & GraphDisplaying
 
 class BarGraphView: UIView, GraphDisplaying {...}
-
-class InteractiveBarGraphView: UIView, GraphDisplaying {...}
-
-typealias GraphView = UIView & GraphDisplaying
 ``` 
+
+^ Really into protocols at Lyft
+
+^ From the beginning, was implemented with GraphDisplaying
+
+^ protocols help with implementation
 
 ---
 
@@ -247,16 +251,49 @@ typealias GraphView = UIView & GraphDisplaying
 final class DemandGraphView: UIView {
     private let graphView: GraphView
 
-    init(frame: CGRect) {
+    init(data: [Int]) {
+        self.graphView = BarGraphView()
+        self.graphView.display(data)
+        ...
+    }
+}
+```
+
+^ Notice that our property is the typealias, GraphView
+
+^ Assign it an instance of BarGraphView
+
+---
+
+# Implementation
+--
+--
+--
+--
+```swift
+class InteractiveBarGraphView: UIView, 
+    GraphDisplaying {...}
+``` 
+
+^ So, when time to add variation
+
+---
+
+# Implementation
+
+```swift
+final class DemandGraphView: UIView {
+    private let graphView: GraphView
+
+    init(data: [Int]) {
         if FeatureFlag.demandGraphV2.getValue() {
             self.graphView = BarGraphView()
         } else {
             self.graphView = InteractiveBarGraphView()
         }
 
-        ...
-
         self.graphView.display(data)
+        ...
     }
 }
 ``` 
@@ -322,7 +359,11 @@ override func viewDidLoad() {
 }
 ```
 
+^ Unlike graph, different API’s, each needs a different delegate
+
 ^ lazy vars make this nice
+
+^ Treatment is set up, other variation never instantiated
 
 ---
 
@@ -333,6 +374,12 @@ override func viewDidLoad() {
 ---
 
 # Final thoughts
+--
+--
+--
+- Limit scope
+- Solid hypothesis
+- Build for shipping
 
 ---
 
