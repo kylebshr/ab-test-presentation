@@ -16,9 +16,11 @@ build-lists: true
 --
 ### Kyle Bashour • @kylebshr • 27 March 2019
 
-^ Welcome everyone, and thanks for coming to the Swift Language User group
+^ Welcome everyone, and thanks for coming to the Swift Language User group. Thank you Noah for that excellent talk
 
 ^ My name is Kyle, and I’m an iOS developer here at Lyft on Driver Labs. I’ve been here over a year now, and I’m excited to talk about some of things I’ve learned about experimentation in that time. 
+
+^ Questions at the end
 
 ---
 
@@ -70,6 +72,8 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ closure. Clean up just delete one of them.
 
+^ Have to know which variation a user experienced - Exposure. Lot going on here. Wait until the last second.
+
 ^ Now that we’ve created our variation, we ship our update and wait for results
 
 ^ After enough time, we’ll get statistically significant movements in our metrics
@@ -80,13 +84,11 @@ FeatureFlag.yellowSignUpButton.on {
 
 ![inline](img/sample-metrics.png)
 
+^ who knew you could increase sign ups by 1.5% just by changing the button color!
+
 ^ Thanks to an incredible experimentation team at Lyft, we have a dashboard for every experiment that looks something like this
 
 ^ Stat, change with conf. interval, chart to visualize the impact
-
-^ who knew you could increase sign ups by 1.5% just by changing the button color!
-
-^ Then you monitor the metrics...
 
 ---
 
@@ -99,6 +101,16 @@ FeatureFlag.yellowSignUpButton.on {
 ^ All you have to do to clean it up is remove the flag & code in losing variant.
 
 ^ Almost two years ago, decided to do something ambitious.. a huge a/b test.
+
+---
+
+# A/B Testing Products
+--
+![inline 25%](img/third-party.png)
+
+^ If you don't have the resources to build in house, several products
+
+^ Whatever tools, monitor metrics...
 
 ---
 
@@ -159,6 +171,62 @@ FeatureFlag.yellowSignUpButton.on {
 ![inline](img/switching-flag.png)
 
 ^ and one that implemented every single delegate method, and forwarded the calls to the correct delegate based on our feature flag
+
+---
+
+# Sidenote
+--
+--
+--
+```swift
+@UIApplicationMain
+class MyAppDelegate: UIResponder, 
+    UIApplicationDelegate {...}
+```
+
+^ Now, there is another way to dynamically swap out your app delegate
+
+^ Have you ever noticed the @UIApplicationMain attribute on your app delegate?
+
+^ This is equivalent to calling a function of the same name
+
+^ You can also add a main.swift (those of you who know obj. c might be familiar) and call this function yourself
+
+--- 
+
+# Sidenote
+
+```swift
+// main.swift
+
+import UIKit
+
+UIApplicationMain(
+    CommandLine.argc,
+    CommandLine.unsafeArgv,
+    nil, // Or a UIApplication subclass
+    NSStringFromClass(MyAppDelegate.self)
+)
+```
+
+^ From the docs: 
+
+^ - Instantiates the application object 
+- Instantiates the delegate and sets it for the application. 
+- Sets up the main event loop, including the application’s run loop, and begins processing events
+- Loads the main nib file if there is one
+
+^ You can implement your own main.swift, and check a flag
+
+---
+
+# Implementation
+
+![inline](img/switching-flag.png)
+
+^ We had some bootstrapping to do after the app starts, so this approach didn't work
+
+^ but our triple-appdelegate methods worked fine
 
 ^ now, this was actually a pretty neat idea
 
@@ -254,7 +322,7 @@ final class DemandGraphView: UIView {
     init(data: [Int]) {
         self.graphView = BarGraphView()
         self.graphView.display(data)
-        ...
+        super.init(frame: .zero)
     }
 }
 ```
@@ -282,19 +350,15 @@ class InteractiveBarGraphView: UIView,
 # Implementation
 
 ```swift
-final class DemandGraphView: UIView {
-    private let graphView: GraphView
-
-    init(data: [Int]) {
-        if FeatureFlag.demandGraphV2.getValue() {
-            self.graphView = BarGraphView()
-        } else {
-            self.graphView = InteractiveBarGraphView()
-        }
-
-        self.graphView.display(data)
-        ...
+init(data: [Int]) {
+    if FeatureFlag.demandGraphV2.getValue() {
+        self.graphView = InteractiveBarGraphView()
+    } else {
+        self.graphView = BarGraphView()
     }
+
+    self.graphView.display(data)
+    super.init(frame: .zero)
 }
 ``` 
 
@@ -346,22 +410,43 @@ final class DemandGraphView: UIView {
 # Implementation
 
 ```swift
-lazy var guidanceViewController = ...
-lazy var newsFeedViewController = ...
+private let newsFeedViewController =
+    NewsfeedFeedViewController()
 
 override func viewDidLoad() {
-    FeatureFlag.homeTabGuidance.on {
-        self.setUpGuidancePanel()
-    } .off {
-        self.setUpNewsFeedPanel()
-    }
-    ...
+    self.setUpNewsFeedPanel()
 }
 ```
 
+^ One thing to keep in mind is that either variation could win
+
+^ Want to make minimal changes to build your test, and ship quickly
+
 ^ Unlike graph, different API’s, each needs a different delegate
 
+---
+
+# Implementation
+
+```swift
+private lazy var newsFeedViewController =
+    NewsfeedFeedViewController()
+
+private lazy var incentivesViewController =
+    IncentivesViewController()
+
+override func viewDidLoad() {
+    FeatureFlag.homeTabIncentives.on {
+        self.setUpIncentivesPanel()
+    } .off {
+        self.setUpNewsFeedPanel()
+    }
+}
+```
+
 ^ lazy vars make this nice
+
+^ when you add the keyword lazy to a property, it's not instantiated until the property is accessed
 
 ^ Treatment is set up, other variation never instantiated
 
@@ -373,13 +458,33 @@ override func viewDidLoad() {
 
 ---
 
-# Final thoughts
---
---
---
+# Swift Recap
+
+- Learned what `@UIApplicationMain` does
+- Protocols can help with clean A/B structure
+- In other cases, `lazy` instantiation can help
+
+^ We learned how to a/b test an entire app, though I don't reccomend it
+
+^ We saw how protocols can make it easier cleanly implement two variations
+
+^ And in cases where that doesn't work well, lazy can help us out
+
+---
+
+# Final Thoughts
+
 - Limit scope
 - Solid hypothesis
 - Build for shipping
+
+^ But we also learned some important lessons about designing a/b tests
+
+^ Limit scope so that your results are clean and relevant to what you're trying to test
+
+^ Have an actual hypothesis to test, or your results won't have much meaning
+
+^ Build for shipping to keep complexity down
 
 ---
 
