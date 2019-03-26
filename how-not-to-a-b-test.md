@@ -16,7 +16,7 @@ build-lists: true
 --
 ### Kyle Bashour • @kylebshr • 27 March 2019
 
-^ Welcome everyone, and thanks for coming to the Swift Language User group. Thank you Noah for that excellent talk
+^ Welcome everyone, and thanks for coming to the Swift Language User group meetup. Thank you Noah for that excellent talk
 
 ^ My name is Kyle, and I’m an iOS developer here at Lyft on Driver Labs. I’ve been here over a year now, and I’m excited to talk about some of things I’ve learned about experimentation in that time. 
 
@@ -30,7 +30,9 @@ build-lists: true
 
 ^ You have an idea for an improvement, but you want to validate that it’s better in some measurable way
 
-^ A/B testing lets you verify a hypothesis by randomly showing two experiences to a user, and using statistical analysis to determine which performs better
+^ A/B testing lets you verify a hypothesis
+
+^ randomly showing two experiences your users and using statistical analysis to determine which performs better
 
 ---
 
@@ -70,8 +72,6 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ A/B test implementation is usually pretty simple looks something like this
 
-^ closure. Clean up just delete one of them.
-
 ^ Have to know which variation a user experienced - Exposure. Lot going on here. Wait until the last second.
 
 ^ Now that we’ve created our variation, we ship our update and wait for results
@@ -84,11 +84,11 @@ FeatureFlag.yellowSignUpButton.on {
 
 ![inline](img/sample-metrics.png)
 
-^ who knew you could increase sign ups by 1.5% just by changing the button color!
-
 ^ Thanks to an incredible experimentation team at Lyft, we have a dashboard for every experiment that looks something like this
 
 ^ Stat, change with conf. interval, chart to visualize the impact
+
+^ who knew you could increase sign ups by 1.5% just by changing the button color!
 
 ---
 
@@ -100,7 +100,7 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ All you have to do to clean it up is remove the flag & code in losing variant.
 
-^ Almost two years ago, decided to do something ambitious.. a huge a/b test.
+^ If you don't have the resources to build in house, several products
 
 ---
 
@@ -108,9 +108,11 @@ FeatureFlag.yellowSignUpButton.on {
 --
 ![inline 25%](img/third-party.png)
 
+^ Whatever tools, monitor metrics...
+
 ^ If you don't have the resources to build in house, several products
 
-^ Whatever tools, monitor metrics...
+^ Almost two years ago, decided to do something ambitious.. a huge a/b test.
 
 ---
 
