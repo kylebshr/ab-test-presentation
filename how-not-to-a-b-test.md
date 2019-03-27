@@ -56,7 +56,7 @@ build-lists: true
 
 ---
 
-## _In viewDidLoad..._
+## Exeriment Setup
 --
 --
 --
@@ -76,11 +76,47 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ But there's two other key requirements - assignment and exposure
 
+---
+
+## Exeriment Setup
+
+```swift
+// App launch: download assignment
+```
+--
+```ruby
+FeatureFlag.yellowSignUpButton.on {
+    button.setStyle(background: .yellow, text: .black)
+} .off {
+    button.setStyle(background: .blue, text: .white)
+}
+```
+
 ^ Assignment happens on launch, when the config is downloaded. Tells the device which variant to use.
 
 ^ COMMON PITFALL is to consider this an exposure. 
 
 ^ However, if the user get's assigned the yellow sign up button, but never even got this far in the flow, it'll still impact metrics.
+
+---
+
+## Exeriment Setup
+
+```swift
+// App launch: download assignment
+
+
+// Only expose once feature flag is accessed
+```
+```ruby
+FeatureFlag.yellowSignUpButton.on {
+    button.setStyle(background: .yellow, text: .black)
+} .off {
+    button.setStyle(background: .blue, text: .white)
+}
+```
+
+^ Whenever the flag is accessed, we tell the server to track us
 
 ^ Now that we’ve created our variation, we ship our update and wait for results
 
