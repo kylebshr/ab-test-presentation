@@ -267,9 +267,9 @@ UIApplicationMain(
 
 ^ With so many changes in a single a/b test, it’s often difficult to tell _why_ a metric moved a certain way
 
-^ is it less intuitive? Is a specific button placement hurting conversion? Maybe the fact that we changed the order you do things?
+^ Is a specific button placement hurting conversion? Maybe the fact that we added or removed steps in different flows? Or maybe the design is less intuitive?
 
-^ one result of the decline in certain metrics meant we were testing this for a long time - over a year
+^ Since metrics were down, we iterated to bring them back up - meant we were testing this for a long time - over a year
 
 ^ this led to the second downside
 
