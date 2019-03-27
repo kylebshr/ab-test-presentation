@@ -52,7 +52,9 @@ build-lists: true
 
 ^ Other terms I might use: control, treatment
 
-^ Now, I think a lot of people think you need to be able to dynamically insert code. But Swift is a compiled, static language - how do you modify that at runtime?
+^ Now, I think a lot of people think you need to be able to dynamically insert code. That is, you modify the UI remotely, injecting a new experience.
+
+^ But Swift is a compiled, static language - so let's take a look at what an A/B test looks like there.
 
 ---
 
@@ -68,11 +70,19 @@ FeatureFlag.yellowSignUpButton.on {
 }
 ```
 
-^ May not have all the bells and whistles of dynamic language where we could do this on the fly
+^ Now, these five lines of code might look simple, but there's a lot going on here, so let's go over it.
 
-^ A/B test implementation is usually pretty simple looks something like this
+^ FeatureFlag is a class on which we define static instances. Provides two closures to call - one for when the experiment is on, one for when it's off.
 
-^ Have to know which variation a user experienced - Exposure. Lot going on here. Wait until the last second.
+^ That's how we implement our variation
+
+^ But there's two other key requirements - assignment and exposure
+
+^ Assignment happens on launch, when the config is downloaded. Tells the device which variant to use.
+
+^ COMMON PITFALL is to consider this an exposure. 
+
+^ However, if the user get's assigned the yellow sign up button, but never even got this far in the flow, it'll still impact metrics.
 
 ^ Now that we’ve created our variation, we ship our update and wait for results
 
