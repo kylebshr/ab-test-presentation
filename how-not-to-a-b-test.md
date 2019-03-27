@@ -456,13 +456,17 @@ final class DemandGraphView: UIView {
 
 ![inline](img/home-tab.png)
 
-^ Self contained, but also meaningful change
+^ Up until a few months ago, the driver home tab contained news feed panel
+
+^ Wanted to show drivers incentives & demand, to encourage them to go online or plan their day
 
 ---
 
 # Driver Home Redesign
 
 ![inline](img/home-tab-expand.png)
+
+^ Self contained, but also meaningful change
 
 ---
 
@@ -481,7 +485,7 @@ override func viewDidLoad() {
 
 ^ Want to make minimal changes to build your test, and ship quickly
 
-^ Unlike graph, different API’s, each needs a different delegate
+^ Unlike graph the graph example, different API’s, each needs a different delegate
 
 ---
 
@@ -515,6 +519,14 @@ override func viewDidLoad() {
 
 ![inline](img/home-metrics.png)
 
+^ Results were actionable
+
+^ Metrics we hoped to move were up, some surprised us but made sense given our changes
+
+^ Metrics outside of our surface area were flat
+
+^ Some metrics were down, but we expected that - news feed views for example
+
 ---
 
 # Swift Recap
@@ -531,7 +543,7 @@ override func viewDidLoad() {
 
 ---
 
-# Final Thoughts
+# A/B Testing Recap
 
 - Limit scope
 - Solid hypothesis
