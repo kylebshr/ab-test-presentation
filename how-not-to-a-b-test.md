@@ -28,21 +28,19 @@ build-lists: true
 
 ^ A/B testing has become pretty commonplace over the last few years, but to make sure we’re on the same page let’s go over a quick example. 
 
-^ You have an idea for an improvement, but you want to validate that it’s better in some measurable way
-
-^ A/B testing lets you verify a hypothesis
-
-^ randomly showing two experiences your users and using statistical analysis to determine which performs better
-
 ---
 
 # Hypothesis
 
 ![inline](img/sign-up.png)
 
-^ As a naive example, you want to test whether a yellow sign up button increases conversion
+^ You have an idea for an improvement, but you want to validate that it’s better in some measurable way
 
-^ You’re testing experience (B) against a control, experience (A), hence the name
+^ For example, you think a yellow sign up button will increase conversions
+
+^ randomly showing two experiences your users and using statistical analysis to determine which performs better
+
+^ You’re testing experience (A) against experience (B), hence the name
 
 ---
 
@@ -142,7 +140,9 @@ FeatureFlag.yellowSignUpButton.on {
 
 ^ also wanted to effortlessly clean up, but for an entire app
 
-^ now you’re probably thinking, “no they didn’t...”
+^ There were a lot of differences, including how we handled app launching, notifications, and more..
+
+^ and you’re probably thinking, “no they didn’t...”
 
 ---
 
@@ -196,9 +196,9 @@ class MyAppDelegate: UIResponder,
     UIApplicationDelegate {...}
 ```
 
-^ Now, there is another way to dynamically swap out your app delegate
+^ now, as a sidenote, I wanted to mention that there's another way you could do this
 
-^ Have you ever noticed the @UIApplicationMain attribute on your app delegate?
+^ If you've built an iOS app, you've probably seen @UIApplicationMain attribute on your app delegate
 
 ^ This is equivalent to calling a function of the same name
 
@@ -238,7 +238,7 @@ UIApplicationMain(
 
 ^ We had some bootstrapping to do after the app starts, so this approach didn't work
 
-^ but our triple-appdelegate methods worked fine
+^ but our triple-app-delegate methods worked great
 
 ^ now, this was actually a pretty neat idea
 
