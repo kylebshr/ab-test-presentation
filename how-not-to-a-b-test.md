@@ -310,9 +310,11 @@ UIApplicationMain(
 --
 --
 ```swift
-protocol GraphDisplaying {...}
-
-typealias GraphView = UIView & GraphDisplaying
+protocol GraphDisplaying {
+    func display(_ data: [Int])
+    func bezierCurve(from points: [Int])
+    ...
+}
 
 class BarGraphView: UIView, GraphDisplaying {...}
 ``` 
@@ -321,20 +323,23 @@ class BarGraphView: UIView, GraphDisplaying {...}
 
 ^ From the beginning, was implemented with GraphDisplaying
 
-^ protocols help with implementation
-
 ---
 
 # Implementation
 
 ```swift
+typealias GraphView = UIView & GraphDisplaying
+
 final class DemandGraphView: UIView {
     private let graphView: GraphView
 
-    init(data: [Int]) {
+    override init(frame: CGRect) {
         self.graphView = BarGraphView()
-        self.graphView.display(data)
-        super.init(frame: .zero)
+        super.init(frame: frame)
+    }
+    
+    func display(_ model: DemandViewModel) {
+        self.graphView.display(model.demand)
     }
 }
 ```
@@ -355,24 +360,30 @@ class InteractiveBarGraphView: UIView,
     GraphDisplaying {...}
 ``` 
 
-^ So, when time to add variation
+^ So, when time to add variation, protocols help with implementation
 
 ---
 
 # Implementation
 
 ```swift
-init(data: [Int]) {
-    if FeatureFlag.demandGraphV2.getValue() {
-        self.graphView = InteractiveBarGraphView()
-    } else {
-        self.graphView = BarGraphView()
-    }
+final class DemandGraphView: UIView {
+    private let graphView: GraphView
 
-    self.graphView.display(data)
-    super.init(frame: .zero)
+    override init(frame: CGRect) {
+        if FeatureFlag.demandGraphV2.getValue() {
+            self.graphView = InteractiveBarGraphView()
+        } else {
+            self.graphView = BarGraphView()
+        }
+        super.init(frame: frame)
+    }
+    
+    func display(_ model: DemandViewModel) {
+        self.graphView.display(model.demand)
+    }
 }
-``` 
+```
 
 ---
 
