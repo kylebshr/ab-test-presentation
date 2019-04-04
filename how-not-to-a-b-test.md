@@ -56,7 +56,7 @@ build-lists: true
 
 ---
 
-## Exeriment Setup
+## Experiment Setup
 --
 --
 --
@@ -78,7 +78,7 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
-## Exeriment Setup
+## Experiment Setup
 
 ```swift
 // App launch: download assignment
@@ -100,7 +100,7 @@ FeatureFlag.yellowSignUpButton.on {
 
 ---
 
-## Exeriment Setup
+## Experiment Setup
 
 ```swift
 // App launch: download assignment
